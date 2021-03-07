@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-// import styles from '../AddContact/AddContact.module.css';
-// import PropTypes from 'prop-types';
+import s from '../AddContact/AddContact.module.css';
 import shortid from 'shortid';
 class AddContact extends Component {
   state = {
@@ -9,54 +8,55 @@ class AddContact extends Component {
   };
   nameInputId = shortid.generate();
   numberInputId = shortid.generate();
+
   handleChange = e => {
-    const { name, number, value } = e.currentTarget;
+    const { name, value } = e.currentTarget;
+
     this.setState({
       [name]: value,
-      [number]: value,
     });
   };
+
   handleSubmit = e => {
-    e.preventSefault();
+    e.preventDefault();
     this.props.onSubmit(this.state);
     this.reset();
   };
+
   reset = () => {
-    this.setState({ name: '', number: '' });
+    this.setState({
+      name: '',
+      number: '',
+    });
   };
-  addContact = name => {
-    const contact = {
-      id: shortid.generate(),
-      name,
-    };
-    this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
-    }));
-  };
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor={this.nameInputId}>
+      <form className={s.form} onSubmit={this.handleSubmit}>
+        <label className={s.form_label} htmlFor={this.nameInputId}>
           Name
           <input
+            className={s.form__input}
             type="text"
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
             id={this.nameInputId}
-          ></input>
+          />
         </label>
-        <label htmlFor={this.numberInputId}>
+        <label className={s.form_label} htmlFor={this.numberInputId}>
           Number
           <input
-            type="tel"
+            className={s.form__input}
+            type="text"
             name="number"
             value={this.state.number}
             onChange={this.handleChange}
             id={this.numberInputId}
-          ></input>
+          />
         </label>
-        <button type="submit" onSubmit={this.addContact}>
+
+        <button type="submit" className={s.form__button}>
           Add contact
         </button>
       </form>

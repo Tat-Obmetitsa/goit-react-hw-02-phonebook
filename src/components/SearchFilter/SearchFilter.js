@@ -1,42 +1,14 @@
 import React from 'react';
-// import shortid from 'shortid';
-// import styles from '../SearchFilter/SearchFilter.module.css';
-// import PropTypes from 'prop-types';
+import s from '../SearchFilter/SearchFilter.module.css';
+import PropTypes from 'prop-types';
 const SearchFilter = ({ value, onChange }) => (
-  <label>
+  <label className={s.form__label}>
     Find contacts by name
-    <input type="text" name="name" value={value} onChange={onChange} />
+    <input type="text" name="name" value={value} onChange={onChange} className={s.form__input} />
   </label>
 );
-
-// class SearchFilter extends Component {
-//   state = {
-//     contacts: [],
-//     filter: '',
-//   };
-//   handleChange = e => {
-//     this.setState({ contacts: e.currentTarget.value });
-//   };
-//   handleSubmit = e => {
-//     e.preventDefault();
-//     this.props.onSubmit(this.state.contacts);
-//     this.setState({ contacts: '' });
-//   };
-//   filterInputId = shortid.generate();
-//   render() {
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <label>Find contacts by name</label>
-//         <input
-//           type="text"
-//           name="name"
-//           value={this.state.contacts}
-//           id={this.filterInputId}
-//           onChange={this.handleChange}
-//         ></input>
-//       </form>
-//     );
-//   }
-// }
-
+SearchFilter.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 export default SearchFilter;

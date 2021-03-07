@@ -1,18 +1,30 @@
 import React from 'react';
-// import styles from '../ContactList/ContactList.module.css';
+import s from '../ContactList/ContactList.module.css';
 import PropTypes from 'prop-types';
 
 const ContactList = function ({ contacts, deleteContact }) {
   return (
     <>
-      <ul>
+      <ul className={s.form__list}>
         {contacts.map(e => {
           return (
-            <li key={e.id}>
+            <li key={e.id} >
               <span>{e.name}: </span>
               <span>{e.number}</span>
-              <button type="button" onClick={() => deleteContact(e.id)}>
-                Удалить
+              <button
+              
+              
+                  type="button"
+               
+               
+                className={s.form__list_button}
+              
+              
+                  onClick={() => deleteContact(e.id)}
+              
+              
+              >
+                Delete contact
               </button>
             </li>
           );

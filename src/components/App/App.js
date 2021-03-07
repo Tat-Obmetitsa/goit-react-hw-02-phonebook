@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import s from '../App/App.module.css';
 import AddContact from '../AddContact/AddContact';
-// import ContactCard from '../ContactCard/ContactCard';
 import ContactList from '../ContactList/ContactList';
 import SearchFilter from '../SearchFilter/SearchFilter';
-
+import shortid from 'shortid';
 class App extends Component {
   state = {
     contacts: [
@@ -15,28 +14,24 @@ class App extends Component {
     ],
     filter: '',
   };
-  changeFilter = e => {
-    this.setState({ filter: e.currentTarget.value });
-  };
-  deleteTodo = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
-  };
-  getVisibleContacts = () => {
-    const { filter, contacts } = this.state;
-    const normalizedFilter = filter.toLowerCase();
 
-    return contacts.filter(contact =>
-      contact.text.toLowerCase().includes(normalizedFilter),
-    );
-  };
+  addContact = data => {
+    const { contacts } = this.state;
+    if (
+      contacts.find(el => data.name.toLowerCase() === el.name.toLowerCase())
+    ) {
+      alert(`${data.name} is already in contacts`);
+    } else {
+      const contact = {
+        id: shortid.generate(),
+        name: data.name,
+        number: data.number,
+      };
 
-  filterContacts = () => {
-    const { contacts, filter } = this.state;
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase()),
-    );
+      this.setState(({ contacts }) => ({
+        contacts: [contact, ...contacts],
+      }));
+    }
   };
   deleteContact = id => {
     this.setState(prevState => ({
@@ -44,19 +39,30 @@ class App extends Component {
     }));
   };
 
+  filterContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLocaleLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter),
+    );
+  };
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
   render() {
     const { filter } = this.state;
     return (
-      <>
-        <h1>Phonebook</h1>
-        <AddContact />
-        <h2>Contacts</h2>
+      <div className={s.container}>
+        <h1 className={s.container__title}>Phonebook</h1>
+        <AddContact onSubmit={this.addContact} />
+        <h2 className={s.container__title}>Contacts</h2>
         <SearchFilter value={filter} onChange={this.changeFilter} />
         <ContactList
           contacts={this.filterContacts()}
           deleteContact={this.deleteContact}
         />
-      </>
+      </div>
     );
   }
 }
